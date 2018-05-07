@@ -66,7 +66,7 @@ impl<D: Dictionary> Ranker<D> {
 
     fn score(&self, name: &str) -> usize {
         name.split_whitespace()
-            .filter(|s| self.dictionary.contains(s))
+            .filter(|s| self.dictionary.contains(&s.to_lowercase()))
             .count()
     }
 
