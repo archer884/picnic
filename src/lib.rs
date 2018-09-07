@@ -60,7 +60,7 @@ impl<D: Dictionary> Ranker<D> {
         Some(Score {
             dictionary: self.score(name),
             bak_penalty: self.has_penalty(name),
-            length: name.len(),
+            length: s.len(),
         })
     }
 
@@ -117,5 +117,15 @@ mod tests {
         let mut set = HashSet::new();
         set.insert(String::from("one"));
         Ranker::new(set)
+    }
+
+    #[test]
+    fn prefer_deeper_files() {
+        let ranker = build_ranker();
+
+        let left = ranker.rank("./missesgrey/Amateur slave training-4226654.mp4");
+        let right = ranker.rank("./Amateur slave training-4226654.mp4");
+
+        assert!(left > right, "{:?} vs {:?}", left, right);
     }
 }
